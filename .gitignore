@@ -128,3 +128,27 @@ dist
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+
+# 💻 IDE
+.DS_Store
+.idea/
+.vscode/
+
+# 🛠️ Build / Output
+client/dist/
+server/dist/
+
+# ⚠️ Archivos generados por Vite (en modo dev)
+client/.vite/
+
+# ✅ Base de datos local y logs
+*.sqlite
+*.db
+
+# 📄 Editor backups
+*.swp
+*.swo
+
+# 📝 Sistema de macOS
+Thumbs.db
