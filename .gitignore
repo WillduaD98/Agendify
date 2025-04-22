@@ -129,6 +129,7 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
+
 # 💻 IDE
 .DS_Store
 .idea/
@@ -151,4 +152,3 @@ client/.vite/
 
 # 📝 Sistema de macOS
 Thumbs.db
-
