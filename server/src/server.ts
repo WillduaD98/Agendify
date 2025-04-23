@@ -1,8 +1,8 @@
 import express from 'express';
 
-import appointmentRoutes from './routes/appointment.routes';
+import appointmentRoutes from './routes/api/appointment.routes';
 import clientRoutes from './routes/client.routes'; //  opcional
-import userRoutes from './routes/user.routes';     // opcional
+import userRoutes from './routes/api/user.routes';     // opcional
 import authRoutes from './routes/auth.routes';
 
 const app = express();
@@ -20,10 +20,10 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en puerto ${PORT}`);
 });
-=======
+
 import dotenv from 'dotenv';
 import cors from 'cors';
-import { sequelize } from '../models/index'; 
+import { sequelize } from './models/index'; 
 import authRoutes from '../routes/auth.routes';
 
 dotenv.config();
@@ -50,7 +50,7 @@ sequelize.sync().then(() => {
     
 });
 
-=======
+
   });
 }).catch((err: any) => {
   console.log('❌ Error connecting to DB:', err);

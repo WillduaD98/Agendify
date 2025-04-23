@@ -1,5 +1,5 @@
 import { DataTypes, Sequelize, Model, Optional } from "sequelize";
-import {User} from './user.model'
+// import { User } from './user.model'
 // Should we import usermodel?
 
 // Define the interface for the client Class
@@ -18,7 +18,7 @@ export class Client extends Model<ClientAttributes, ClientCreationAttributes> im
     public phoneNumber!: number;
 
     // associated User model
-    public readonly assignedUser? : User;
+    // public readonly assignedUser? : User;
 
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
@@ -56,7 +56,6 @@ export function ClientFactory(sequelize: Sequelize): typeof Client {
     );
     return Client;
 }
-
 // =======
 // import { DataTypes, Model } from 'sequelize';
 // import { sequelize } from '../config/db';
