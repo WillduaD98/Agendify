@@ -1,21 +1,23 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import './Navbar.css';
 
 const Navbar: React.FC = () => {
   const location = useLocation();
 
-  // Optional: hidde Navbar at login
-  if (location.pathname === '/login') return null;
+  // Hide Navbar on login page
+  if (location.pathname === '/' || location.pathname === '/login') return null;
 
   return (
-    <nav style={{ padding: '1rem', backgroundColor: '#3b82f6', color: 'white' }}>
-      <h1 style={{ marginBottom: '0.5rem' }}>Agendify</h1>
-      <div style={{ display: 'flex', gap: '1rem' }}>
-        <Link to="/" style={{ color: 'white' }}>Dashboard</Link>
-        <Link to="/appointments" style={{ color: 'white' }}>Citas</Link>
-        <Link to="/book" style={{ color: 'white' }}>Agendar</Link>
-        <Link to="/login" style={{ color: 'white' }}>Salir</Link>
+    <nav className="navbar">
+      <h1 className="navbar-title">Agendify</h1>
+      <div className="navbar-links">
+        {location.pathname !== '/dashboard' && (
+          <Link to="/dashboard">Home</Link>
+        )}
+        <Link to="/schedule">Schedule</Link>
+        <Link to="/booking">Book</Link>
+        <Link to="/login">Logout</Link>
       </div>
     </nav>
   );

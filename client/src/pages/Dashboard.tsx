@@ -1,19 +1,20 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Dashboard.css';
+import './Dashboard.css'; // Asegúrate de tener este archivo
 
 const Dashboard: React.FC = () => {
   const navigate = useNavigate();
 
   return (
     <div className="dashboard-container">
-      <h2>Welcome to Agendify 👋</h2>
-      <p className="dashboard-subtitle">Manage your appointments and clients quickly and easily.</p>
-
-      <div className="dashboard-actions">
-        <button onClick={() => navigate('/appointments')}>📅 View Schedule</button>
-        <button onClick={() => navigate('/book')}>➕ Book New Appointment</button>
-        <button onClick={() => alert('Clients feature coming soon')}>👥 View Clients</button>
+      <div className="dashboard-box">
+        <h2>Welcome to Agendify 👋</h2>
+        <p>Manage your appointments and clients quickly and easily.</p>
+        <div className="dashboard-buttons">
+          <button onClick={() => navigate('/schedule')}>📅 View Schedule</button>
+          <button onClick={() => navigate('/book')}>➕ Book New Appointment</button>
+          <button onClick={() => alert('Clients feature coming soon')}>👥 View Clients</button>
+        </div>
       </div>
     </div>
   );
