@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { User } from '../models/user.model';
 import db from '../src/models';
 
 const Appointment = db.Appointment;

@@ -1,15 +1,18 @@
-import { DataTypes, Model } from 'sequelize';
-import { sequelize } from '../config/db';
+import { DataTypes, Model, Optional } from 'sequelize';
+import sequelize from '../config/db';
 
 
+// Definir los atributos que tendrá el modelo
+interface UserAttributes {
+  id: number;
+  username: string;
+  password: string;
+}
 
-export const User = sequelize.define('User', {
-  username: {
-    type: DataTypes.STRING,
-    unique: true,
-    allowNull: false
+// Para crear nuevos usuarios sin ID (autoincremental)
+interface UserCreationAttributes extends Optional<UserAttributes, 'id'> {}
 
-class User extends Model {
+class User extends Model<UserAttributes, UserCreationAttributes> implements UserAttributes {
   public id!: number;
   public username!: string;
   public password!: string;
@@ -36,11 +39,8 @@ User.init(
     sequelize,
     modelName: 'User',
     tableName: 'users',
+    timestamps: false,
   }
-)
-
-
-
+);
 
 export { User };
-
