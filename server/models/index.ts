@@ -1,4 +1,5 @@
 
+
 import Sequelize from 'sequelize';
 import userModel from './user.model';
 import clientModel from './client.model';
@@ -27,29 +28,26 @@ export default db;
 
 import sequalize from "../config/db";
 import {Sequelize} from 'sequelize';
+=======
+import { sequelize } from '../config/db';
+import { User } from './user.model';
+import { Client } from './client.model';
+import { Appointment } from './appointment.model';
 
-import UserModel from './user.model';
-import ClientModel from './client.model';
-import AppointmentModel from './appointment.model';
 
-// Initilizing models
-const User = UserModel(sequelize);
-const Client = ClientModel(sequalize);
-const Appointment = AppointmentModel(sequalize);
 
-//Relationships
-User.hasMany(Appointment, { foreignKey: 'userId'});
-Appointment.belongsTo(User, {foreignKey: 'userId'});
 
-Client.hasMany(AppointmentModel, {foreignKey: 'clientId'});
-Appointment.belonsTo(Client, {foreignKey: 'clientId'});
+// Relaciones
+User.hasMany(Appointment, { foreignKey: 'userId' });
+Appointment.belongsTo(User, { foreignKey: 'userId' });
 
-//Sequelize and Models Exports
+Client.hasMany(Appointment, { foreignKey: 'clientId' });
+Appointment.belongsTo(Client, { foreignKey: 'clientId' });
 
 export {
-    sequalize,
-    User,
-    Client,
-    Appointment
+  sequelize,
+  User,
+  Client,
+  Appointment
 };
 
