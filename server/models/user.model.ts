@@ -1,8 +1,13 @@
 import { DataTypes, Model } from 'sequelize';
 import { sequelize } from '../config/db';
 
+interface UserAttributes {
+  id?: number;
+  username: string;
+  password: string;
+}
 
-class User extends Model {
+class User extends Model<UserAttributes> implements UserAttributes {
   public id!: number;
   public username!: string;
   public password!: string;
@@ -29,6 +34,7 @@ User.init(
     sequelize,
     modelName: 'User',
     tableName: 'users',
+    timestamps: false, // opcional según tu estructura
   }
 );
 

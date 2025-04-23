@@ -1,27 +1,50 @@
-const API_URL = '/api/auth';
+import { JwtPayload, jwtDecode } from 'jwt-decode';
 
-export const loginUser = async (credentials) => {
-  const res = await fetch(`${API_URL}/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(credentials),
-  });
-  return res.json();
-};
+class AuthService {
 
-export const registerUser = async (credentials) => {
-  const res = await fetch(`${API_URL}/register`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(credentials),
-  });
-  return res.json();
-};
+  getProfile(): JwtPayload | null {
+    const token = this.getToken();
+    if (token) {
+      try {
+        return jwtDecode(token); 
+      } catch (error) {
+        return null;
+      }
+    }
+    return null;
+  }
 
-export const fetchProfile = async () => {
-  const token = localStorage.getItem('token');
-  const res = await fetch('/api/auth/profile', {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return res.json();
-};
+  loggedIn(): boolean {
+    const token = this.getToken();
+    return !!token && !this.isTokenExpired(token);
+  }
+  
+  isTokenExpired(token: string): boolean {
+    try {
+      const decoded = jwtDecode(token);  
+      if (decoded.exp) {
+        const expirationDate = decoded.exp * 1000;  
+        return Date.now() >= expirationDate; 
+      }
+      return true;  
+    } catch (error) {
+      return true;  
+    }
+  }
+
+  getToken(): string {
+    return localStorage.getItem('token') || '';
+  }
+
+  login(idToken: string): void {
+    localStorage.setItem('token', idToken);
+    window.location.href = '/';  
+  }
+
+  logout(): void {
+    localStorage.removeItem('token');
+    window.location.href = '/login';
+  }
+}
+
+export default new AuthService();

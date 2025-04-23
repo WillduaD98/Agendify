@@ -1,9 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
 import { User } from '../models/user.model';
-
-const SECRET = process.env.JWT_SECRET_KEY || 'secretkey';
+import generateToken from '../config/auth';
 
 export const register = async (req: Request, res: Response) => {
   try {
@@ -35,7 +33,7 @@ export const login = async (req: Request, res: Response) => {
       return res.status(401).json({ message: 'Contraseña incorrecta' });
     }
 
-    const token = jwt.sign({ id: user.id, username: user.username }, SECRET, { expiresIn: '1h' });
+    const token = generateToken({ id: user.id, username: user.username });
     return res.json({ message: 'Login exitoso', token });
   } catch (err) {
     return res.status(500).json({ message: 'Error en el login', error: err });
