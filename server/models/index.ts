@@ -1,39 +1,44 @@
+// import Sequelize from 'sequelize';
+// import userModel from './user.model';
+// import clientModel from './client.model';
+// import appointmentModel from './appointment.model';
 
+// const sequelize = new Sequelize(process.env.DB_URI as string);
 
-import Sequelize from 'sequelize';
-import userModel from './user.model';
-import clientModel from './client.model';
-import appointmentModel from './appointment.model';
+// const db: any = {};
 
-const sequelize = new Sequelize(process.env.DB_URI as string);
+// db.Sequelize = Sequelize;
+// db.sequelize = sequelize;
 
-const db: any = {};
+// // Models
+// db.User = userModel(sequelize, Sequelize.DataTypes);
+// db.Client = clientModel(sequelize, Sequelize.DataTypes);
+// db.Appointment = appointmentModel(sequelize, Sequelize.DataTypes);
 
-db.Sequelize = Sequelize;
-db.sequelize = sequelize;
+// // Relationships
+// db.Appointment.belongsTo(db.Client, { foreignKey: 'clientId' });
+// db.Client.hasMany(db.Appointment, { foreignKey: 'clientId' });
 
-// Models
-db.User = userModel(sequelize, Sequelize.DataTypes);
-db.Client = clientModel(sequelize, Sequelize.DataTypes);
-db.Appointment = appointmentModel(sequelize, Sequelize.DataTypes);
+// db.Appointment.belongsTo(db.User, { foreignKey: 'professionalId' });
+// db.User.hasMany(db.Appointment, { foreignKey: 'professionalId' });
 
-// Relationships
-db.Appointment.belongsTo(db.Client, { foreignKey: 'clientId' });
-db.Client.hasMany(db.Appointment, { foreignKey: 'clientId' });
-
-db.Appointment.belongsTo(db.User, { foreignKey: 'professionalId' });
-db.User.hasMany(db.Appointment, { foreignKey: 'professionalId' });
-
-export default db;
+// export default db;
 
 import sequalize from "../config/db";
 import {Sequelize} from 'sequelize';
-=======
+
 import { sequelize } from '../config/db';
 import { User } from './user.model';
 import { Client } from './client.model';
 import { Appointment } from './appointment.model';
 
+
+
+
+// *** MODIFIY Relationships *** //
+//Relationships
+User.hasMany(Appointment, { foreignKey: 'userId'});
+Appointment.belongsTo(User, {foreignKey: 'userId'});
 
 
 
