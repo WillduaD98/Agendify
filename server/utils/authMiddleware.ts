@@ -1,15 +1,16 @@
-import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
+import jwt from 'jsonwebtoken';
 
-export const protect = (req: Request & { user?: string }, res: Response, next: NextFunction) => {
+export const verifyToken = (req: Request, res: Response, next: NextFunction) => {
   const token = req.headers.authorization?.split(' ')[1];
-  if (!token) return res.status(401).json({ message: 'No token' });
+  if (!token) return res.status(403).json({ message: 'Token no proporcionado' });
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY || '');
-    req.user = (decoded as any).username;
+    const secretKey = process.env.JWT_SECRET_KEY || 'secretkey';
+    const decoded = jwt.verify(token, secretKey);
+    (req as any).user = decoded;
     next();
-  } catch {
-    return res.status(401).json({ message: 'Invalid token' });
+  } catch (err) {
+    return res.status(401).json({ message: 'Token inválido' });
   }
 };
