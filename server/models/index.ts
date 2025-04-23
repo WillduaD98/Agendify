@@ -28,12 +28,19 @@ export default db;
 
 import sequalize from "../config/db";
 import {Sequelize} from 'sequelize';
-=======
+
 import { sequelize } from '../config/db';
 import { User } from './user.model';
 import { Client } from './client.model';
 import { Appointment } from './appointment.model';
 
+
+
+
+// *** MODIFIY Relationships *** //
+//Relationships
+User.hasMany(Appointment, { foreignKey: 'userId'});
+Appointment.belongsTo(User, {foreignKey: 'userId'});
 
 
 
