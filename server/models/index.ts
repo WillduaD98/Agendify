@@ -10,6 +10,7 @@ const User = UserModel(sequelize);
 const Client = ClientModel(sequalize);
 const Appointment = AppointmentModel(sequalize);
 
+// *** MODIFIY Relationships *** //
 //Relationships
 User.hasMany(Appointment, { foreignKey: 'userId'});
 Appointment.belongsTo(User, {foreignKey: 'userId'});

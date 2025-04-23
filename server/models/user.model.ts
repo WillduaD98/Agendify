@@ -2,7 +2,8 @@ import { DataTypes } from 'sequelize';
 import bcrypt from 'bcrypt';
 import sequelize from '../config/database';
 
-const User = sequelize.define('User', {
+
+export const User = sequelize.define('User', {
   username: {
     type: DataTypes.STRING,
     unique: true,
@@ -20,4 +21,4 @@ const User = sequelize.define('User', {
   }
 });
 
-export default User;
+
