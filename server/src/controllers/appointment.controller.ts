@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import db from '../models';
+import db from '../src/models';
 
 const Appointment = db.Appointment;
 // funciones para manejar las citas y conectarse a la base de datos
