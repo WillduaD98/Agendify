@@ -13,7 +13,7 @@ const Dashboard: React.FC = () => {
         <div className="dashboard-buttons">
           <button onClick={() => navigate('/schedule')}>📅 View Schedule</button>
           <button onClick={() => navigate('/book')}>➕ Book New Appointment</button>
-          <button onClick={() => alert('Clients feature coming soon')}>👥 View Clients</button>
+          <button onClick={() => navigate('/clients')}>👥 View/Create Clients</button>
         </div>
       </div>
     </div>

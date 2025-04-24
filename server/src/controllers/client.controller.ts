@@ -1,15 +1,27 @@
 import { Request, Response } from 'express';
 import { Client, User } from '../models/index.js';
-
+import { AuthRequest } from '../utils/authMiddleware.js';
 
 //CREAR UN CLIENTE por POST
-export const createClient = async (req: Request, res: Response) => {
+export const createClient = async (req: AuthRequest, res: Response) => {
     const {name, phoneNumber} = req.body;
+    console.log(`desde CreateClient controler: `, req.userId)
+    const assignedUserId = req.userId
+
+    if (!assignedUserId) {
+        return res.status(401).json({message: 'Unauthorized: no userId in Request'})
+    }
     try {
-        const newClient = await Client.create({name, phoneNumber});
-        res.status(201).json(newClient)
+        console.log('📥 Body recibido:', req.body);
+        const newClient = await Client.create({
+            name, 
+            phoneNumber,
+            assignedUserId
+        });
+        return res.status(201).json(newClient)
     } catch (error) {
-        res.status(500).json(`error in creating client controller: ${error}`)
+        console.error('❌ Error al crear cliente:', error); 
+        return res.status(500).json(`error in creating client controller: ${error}`)
     }
 }
 
@@ -27,6 +39,7 @@ export const getAllClients = async (_req: Request, res: Response) => {
         });
         res.json(clients)
     } catch (error) {
+        console.error('❌ Error al crear cliente:', error); 
         res.status(500).json(`error in getting All Clients controller: ${error}`)
     }
 }
@@ -49,6 +62,7 @@ export const getClientById = async (req: Request, res: Response) => {
             res.status(404).json({message: `Ticket not found`})
         }
     } catch (error: any) {
+        console.error('❌ Error al crear cliente:', error); 
         res.status(500).json({message: error.message})
     }
 }
@@ -68,6 +82,7 @@ export const updateClient = async (req: Request, res: Response) => {
             res.status(404).json({message: `Client not found`})
         }
     } catch (error: any) {
+        console.error('❌ Error al crear cliente:', error); 
         res.status(400).json({message: error.message})
     }
 }
@@ -83,6 +98,7 @@ export const deleteClient = async (req: Request, res: Response) => {
             res.status(404).json({message: `Client not found`})
         }
     } catch (error: any) {
+        console.error('❌ Error al crear cliente:', error); 
         res.status(400).json({message: error.message})
     }
 }
