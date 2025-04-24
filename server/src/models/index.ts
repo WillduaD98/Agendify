@@ -1,56 +1,33 @@
-// import Sequelize from 'sequelize';
-// import userModel from './user.model';
-// import clientModel from './client.model';
-// import appointmentModel from './appointment.model';
+import dotenv from 'dotenv';
+dotenv.config();
 
-// const sequelize = new Sequelize(process.env.DB_URI as string);
-
-// const db: any = {};
-
-// db.Sequelize = Sequelize;
-// db.sequelize = sequelize;
-
-// // Models
-// db.User = userModel(sequelize, Sequelize.DataTypes);
-// db.Client = clientModel(sequelize, Sequelize.DataTypes);
-// db.Appointment = appointmentModel(sequelize, Sequelize.DataTypes);
-
-// // Relationships
-// db.Appointment.belongsTo(db.Client, { foreignKey: 'clientId' });
-// db.Client.hasMany(db.Appointment, { foreignKey: 'clientId' });
-
-// db.Appointment.belongsTo(db.User, { foreignKey: 'professionalId' });
-// db.User.hasMany(db.Appointment, { foreignKey: 'professionalId' });
-
-// export default db;
-
-import sequalize from "../config/db";
-
-import { User } from './user.model';
-import { Client } from './client.model';
-import { Appointment } from './appointment.model';
+import { Sequelize } from 'sequelize';;
+import { UserFactory } from './user.model.js';
+import { ClientFactory } from './client.model.js';
+import { AppointmentFactory } from './appointment.model.js';
 
 
+const sequelize = process.env.DB_URL
+  ? new Sequelize(process.env.DB_URL)
+  : new Sequelize(process.env.DB_NAME || '', process.env.DB_USER || '', process.env.DB_PASSWORD, {
+    host: 'localhost',
+    dialect: 'postgres',
+    port: 5433,   //CAMBIAR EL PUERTO A 5432 para correrlo, para WILLIAM el puerto es el 5433
+    dialectOptions: {
+      decimalNumbers: true,
+    },
+  });
 
+const User = UserFactory(sequelize);
+const Client = ClientFactory(sequelize);
+const Appointment = AppointmentFactory(sequelize)
+// Descomentar cuando el appointment model esté como el de client
+// const Appointment = AppointmentFactory(sequelize);
 
-// *** MODIFIY Relationships *** //
-//Relationships
-User.hasMany(Appointment, { foreignKey: 'userId'});
-Appointment.belongsTo(User, {foreignKey: 'userId'});
+User.hasMany(Client, {foreignKey: 'assignedUserId'});
+Client.belongsTo(User, { foreignKey: 'assignedUserId', as: 'assignedUser' });
 
+Client.hasMany(Appointment, {foreignKey: 'clientId'});
+Appointment.belongsTo(Client, {foreignKey: 'clientId', as : 'client'})
 
-
-// Relaciones
-User.hasMany(Appointment, { foreignKey: 'userId' });
-Appointment.belongsTo(User, { foreignKey: 'userId' });
-
-Client.hasMany(Appointment, { foreignKey: 'clientId' });
-Appointment.belongsTo(Client, { foreignKey: 'clientId' });
-
-export {
-  sequalize,
-  User,
-  Client,
-  Appointment
-};
-
+export { sequelize, User, Client, Appointment };
