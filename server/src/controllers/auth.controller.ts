@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { User } from '../models/user.model.js';
 
 
-const SECRET = process.env.JWT_SECRET_KEY || 'secretkey';
+const SECRET = process.env.JWT_SECRET_KEY || '';
 
 export const register = async (req: Request, res: Response) => {
   try {
@@ -25,8 +25,11 @@ export const register = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
   try {
+    console.log(`req.body ${req.body}`)
+    
     const { username, password } = req.body;
     const user = await User.findOne({ where: { username } });
+    console.log(`user.pasword from DB: `, user?.password)
     if (!user) {
       return res.status(401).json({ message: 'Usuario no encontrado' });
     }
