@@ -1,6 +1,6 @@
 const API_URL = '/api/auth';
 
-export const loginUser = async (credentials) => {
+export const loginUser = async (credentials: any) => {
   const res = await fetch(`${API_URL}/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -9,7 +9,7 @@ export const loginUser = async (credentials) => {
   return res.json();
 };
 
-export const registerUser = async (credentials) => {
+export const registerUser = async (credentials: any) => {
   const res = await fetch(`${API_URL}/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
