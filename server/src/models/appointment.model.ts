@@ -1,66 +1,61 @@
 
-import { DataTypes, Model } from 'sequelize';
-import { Sequelize } from 'sequelize';
+import { DataTypes, Model, Sequelize, Optional } from 'sequelize';
+import { Client } from '../models/client.model.js';
 
-export default (sequelize: Sequelize) => {
-  const Appointment = sequelize.define('Appointment', {
-    date: {
-      type: DataTypes.DATE,
-      allowNull: false, //  fecha obligatoria
-    },
-    reason: {
-      type: DataTypes.STRING,
-      allowNull: false, //  motivo obligatorio
-    },
-    clientId: { //hace referencia al usuario
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    professionalId: { //hace referencia al profesional (usuario)
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    }
-  });
+interface AppointmentAttributes { 
+  id: number;
+  date: Date;
+  status: 'pending' | 'confirmed' | 'cancelled';
+  clientId?: number;
 
-  return Appointment;
-};
-
-class Appointment extends Model {
-  public id!: number;
-  public date!: Date;
-  public userId!: number;
-  public clientId!: number;
 }
 
-// Appointment.init(
-//   {
-//     id: {
-//       type: DataTypes.INTEGER,
-//       autoIncrement: true,
-//       primaryKey: true,
-//     },
-//     date: {
-//       type: DataTypes.DATE,
-//       allowNull: false,
-//     },
-//     userId: {
-//       type: DataTypes.INTEGER,
-//       allowNull: false,
-//     },
-//     clientId: {
-//       type: DataTypes.INTEGER,
-//       allowNull: false,
-//     },
-//   },{
-//     tableName: 'appointments',
-//     sequelize?,
-//   // {
-//   //   // sequelize,
-//   //   modelName: 'Appointment',
-//   //   tableName: 'appointments',
-//   // }
-//   }
-// );
+interface AppoinmentCreationAttributes extends Optional<AppointmentAttributes, 'id'>{}
 
-export { Appointment };
+export class Appointment extends Model<AppointmentAttributes, AppoinmentCreationAttributes> implements AppointmentAttributes{
+  public id!: number;
+  public date!: Date;
+  public status!: 'pending' | 'confirmed' | 'cancelled';
+  public clientId?: number;
 
+  public readonly client?: Client
+
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+}
+
+
+
+export function AppointmentFactory (sequelize: Sequelize): typeof Appointment {
+  Appointment.init(
+    {
+      id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+      },
+      date: {
+        type: DataTypes.DATE,
+        allowNull: false
+      },
+      status: {
+        type: DataTypes.ENUM('pending', 'confirmed', 'cancelled'),
+        allowNull: false,
+        defaultValue: 'pending'
+      },
+      clientId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+          model: 'clients',
+          key: 'id'
+        }
+      }
+    },
+    {
+      tableName: 'appointments',
+      sequelize,
+    }
+  );
+  return Appointment;
+};
