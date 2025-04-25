@@ -141,5 +141,5 @@ const ScheduleAppointment: React.FC<Props> = ({ appointmentToEdit }) => {
   );
 };
 
-export default ScheduleAppointment
+export default ScheduleAppointment;
 
