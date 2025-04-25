@@ -1,7 +1,11 @@
 import React, {useState} from 'react';
 import api from '../services/api'
 
-const ClientForm = () => {
+interface ClientFormProps {
+    onSuccess: () => Promise<void>;
+}
+
+const ClientForm: React.FC<ClientFormProps> = ({ onSuccess }) => {
     const [name, setName] = useState('');
     const [phoneNumber, setPhoneNumber] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
@@ -21,6 +25,7 @@ const ClientForm = () => {
             setErrorMessage('');
             setName('');
             setPhoneNumber('');
+            await onSuccess();
             console.log('Cliente creado', response.data)
 
         } catch (error) {
