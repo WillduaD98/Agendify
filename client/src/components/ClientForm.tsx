@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import api from '../services/api'
 
 interface ClientFormProps {
@@ -21,7 +21,7 @@ const ClientForm: React.FC<ClientFormProps> = ({ onSuccess }) => {
                 phoneNumber: Number(phoneNumber)
             });
 
-            setSuccessMessage('Cliente Creado correctamente');
+            setSuccessMessage('Client created successfully');
             setErrorMessage('');
             setName('');
             setPhoneNumber('');
@@ -30,34 +30,51 @@ const ClientForm: React.FC<ClientFormProps> = ({ onSuccess }) => {
 
         } catch (error) {
             console.error(`Error al crear cliente:`, error)
-            setErrorMessage('Hubo un error al crear el cliente');
+            setErrorMessage('There was an error creating the client');
             setSuccessMessage('');
         }
 
     }
 
-    return(
-        <div>
-            <h2>Crear nuevo cliente</h2>
-            <form onSubmit={handleSubmit}>
-                {/* Name input */}
-                <div>
-                    <label>Client name:</label>
-                    <input type='text' value={name} onChange={(e) => setName(e.target.value)} placeholder='Ex: Juan Perez' required/>
+    return (
+        <div className="d-flex flex-column align-items-center py-5">
+            <div className="card p-4 shadow rounded-4" style={{ maxWidth: '500px', width: '100%' }}>
+                <h2 className="mb-3 text-center fw-bold text-primary">Create a new client</h2>
+                <form onSubmit={handleSubmit}>
+                    {/* Name input */}
+                    <div className="mb-3">
+                        <label className="form-label fw-semibold">Client Name:</label>
+                    <input
+                        type="text"
+                        className="form-control"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Ej: Juan Perez"
+                        required
+                    />
                 </div>
-
                 {/*Phone Number input*/}
-                <div>
-                    <label>Client Phone Number:</label>
-                    <input type='tel' value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} placeholder='Ex: 4771234567' required/>
+                <div className="mb-3">
+                <label className="form-label fw-semibold">Client Phone Number:</label>
+                    <input
+                        type="tel"
+                        className="form-control"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        placeholder="Ej: 4771234567"
+                        required
+                    />
                 </div>
+                <div className="d-grid">
+                <button type="submit" className="btn btn-primary btn-lg">Save Clients</button>
+                </div>
+                </form>
 
-                <button type='submit'>Save Client</button>
-            </form>
-            {successMessage && <p style={{ color: 'green' }}>{successMessage}</p>}
-            {errorMessage && <p style = {{color: 'red'}}>{errorMessage}</p>}
+                {successMessage && <div className="alert alert-success mt-3 text-center">{successMessage}</div>}
+                {errorMessage && <div className="alert alert-danger mt-3 text-center">{errorMessage}</div>}
+            </div>
         </div>
-    )
+    );
 };
 
 export default ClientForm;
