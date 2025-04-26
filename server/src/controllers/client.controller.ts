@@ -26,9 +26,11 @@ export const createClient = async (req: AuthRequest, res: Response) => {
 }
 
 //Obtener todos los clientes con GET
-export const getAllClients = async (_req: Request, res: Response) => {
+export const getAllClients = async (req: AuthRequest, res: Response) => {
+    const userId = req.userId
     try {
         const clients = await Client.findAll({
+            where: { assignedUserId: userId },
             include: [
                 {
                     model: User,
