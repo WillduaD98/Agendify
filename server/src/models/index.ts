@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import { Sequelize } from 'sequelize';;
+import { Sequelize } from 'sequelize';
 import { UserFactory } from './user.model.js';
 import { ClientFactory } from './client.model.js';
 import { AppointmentFactory } from './appointment.model.js';
@@ -21,8 +21,7 @@ const sequelize = process.env.DB_URL
 const User = UserFactory(sequelize);
 const Client = ClientFactory(sequelize);
 const Appointment = AppointmentFactory(sequelize)
-// Descomentar cuando el appointment model esté como el de client
-// const Appointment = AppointmentFactory(sequelize);
+
 
 User.hasMany(Client, {foreignKey: 'assignedUserId'});
 Client.belongsTo(User, { foreignKey: 'assignedUserId', as: 'assignedUser' });
