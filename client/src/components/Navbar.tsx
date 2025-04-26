@@ -1,8 +1,24 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+
 import './Navbar.css';
+import auth from '../services/auth'
 
 const Navbar: React.FC = () => {
+  const [loginCheck, setLoginCheck] = useState(false);
+
+  const checkLogin = () => {
+    if(auth.loggedIn()) {
+      setLoginCheck(true)
+    }
+  };
+
+  const navigate = useNavigate()
+  useEffect(() => {
+    console.log(loginCheck);
+    checkLogin();
+  }, [loginCheck])
+
   const location = useLocation();
 
   // Hide Navbar on login page
@@ -17,7 +33,10 @@ const Navbar: React.FC = () => {
         )}
         <Link to="/schedule">Schedule</Link>
         <Link to="/booking">Book</Link>
-        <Link to="/login">Logout</Link>
+         <button type='button' onClick={() => {
+          auth.logout();
+          navigate('/')
+        }} >Logout</button>
       </div>
     </nav>
   );

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { Client, Appointment } from '../models/index.js';
 import { Op } from 'sequelize';
+import { AuthRequest } from '../utils/authMiddleware.js';
 
 // import { User } from '../models/user.model';
 
@@ -8,9 +9,10 @@ import { Op } from 'sequelize';
 // controlan el CRUD de las citas
 
 //CREAT UN APPOINTMENT por POST
-export const createAppointment = async (req: Request, res: Response) => {
-  const {date, clientId, status} = req.body;
+export const createAppointment = async (req: AuthRequest, res: Response) => {
+  
   try {
+    const {date, clientId, status, reason} = req.body;
     // Checked if client exist:
     const client = await Client.findByPk(clientId);
     if (!client) {
@@ -20,17 +22,21 @@ export const createAppointment = async (req: Request, res: Response) => {
     const newAppointment = await Appointment.create({
       date, 
       clientId, 
+      reason,
       status: status || 'pending'
     });
     return res.status(201).json(newAppointment);
   } catch (error) {
+    console.error(`Error al crear la cita: `, error)
     return res.status(500).json({ message: 'Error al crear la cita', error });
   }
 };
 
 //Obtener todos los Appointments con GET por fecha
-export const getAppointmentsByDateAndUser = async (req: Request, res: Response) => {
-  const { userId, date } = req.params
+export const getAppointmentsByDateAndUser = async (req: AuthRequest, res: Response) => {
+  const { date } = req.query
+  const userId = req.userId
+  console.log('User ID en el request:', userId)
   if (!userId || !date) {
     return res.status(400).json({message: `user Id and Date are required. `})
   }
@@ -43,8 +49,8 @@ export const getAppointmentsByDateAndUser = async (req: Request, res: Response) 
       where: {
         date: {
           [Op.between]: [start, end]
-        }
-      },
+        },
+        '$client.assignedUserId$': userId},
       include: [
         {
           model: Client,
@@ -52,14 +58,15 @@ export const getAppointmentsByDateAndUser = async (req: Request, res: Response) 
           where: {
             assignedUserId: userId
           },
-          attributes: ['id', 'name']
+          attributes: ['id', 'name', 'phoneNumber']
         }
       ],
       order: [['date', 'ASC']]
     })
     return res.status(200).json(appointments);
-  } catch (error) {
-    return res.status(500).json({ message: 'Error al obtener citas', error });
+  } catch (error: any) {
+    console.error('❌ Error al obtener citas:', error); 
+    return res.status(500).json({message: error.message})
   }
 };
 //Find Appointment by ID  - GET
@@ -77,8 +84,9 @@ export const getAppointmentById = async (req: Request, res: Response) => {
     });
     if (!appointment) return res.status(404).json({ message: 'Cita no encontrada' });
     return res.status(200).json(appointment);
-  } catch (error) {
-    return res.status(500).json({ message: 'Error al buscar cita', error });
+  } catch (error: any) {
+    console.error('❌ Error al crear cliente:', error); 
+    return res.status(500).json({message: error.message})
   }
 };
 
@@ -98,8 +106,9 @@ export const updateAppointment = async (req: Request, res: Response) => {
     
     await appointment.save();
     return res.status(200).json(`Appointment updated ${appointment}`);
-  } catch (error) {
-    return res.status(500).json({ message: 'Error al actualizar cita', error });
+  } catch (error: any) {
+    console.error('❌ Error al crear cliente:', error); 
+    return res.status(500).json({message: error.message})
   }
 };
 

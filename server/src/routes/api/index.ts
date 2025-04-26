@@ -8,6 +8,6 @@ const router = Router();
 
 router.use('/clients', verifyToken, clientRouter);
 router.use('/users',verifyToken, userRouter);
-router.use('/apopointment', verifyToken, appointmentRouter);
+router.use('/appointments', verifyToken, appointmentRouter);
 router.use('/', authRoutes);
 export default router;

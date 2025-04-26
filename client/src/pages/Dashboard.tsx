@@ -11,8 +11,8 @@ const Dashboard: React.FC = () => {
         <h2>Welcome to Agendify 👋</h2>
         <p>Manage your appointments and clients quickly and easily.</p>
         <div className="dashboard-buttons">
-          <button onClick={() => navigate('/schedule')}>📅 View Schedule</button>
-          <button onClick={() => navigate('/book')}>➕ Book New Appointment</button>
+          <button onClick={() => navigate('/booking')}>📅 View Schedule</button>
+          <button onClick={() => navigate('/booking')}>➕ Book New Appointment</button>
           <button onClick={() => navigate('/clients')}>👥 View/Create Clients</button>
         </div>
       </div>
