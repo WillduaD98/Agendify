@@ -20,7 +20,8 @@ app.use((req, _res, next) => {
 // Agrupar todas las rutas bajo /api
 app.use(router);
 
-sequelize.sync().then(() => {
+//Quitar el alter: true para producción
+sequelize.sync({force: true}).then(() => {
   console.log('🟢 DB connected and models synced');
   app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
