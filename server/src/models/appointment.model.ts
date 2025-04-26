@@ -5,6 +5,7 @@ import { Client } from '../models/client.model.js';
 interface AppointmentAttributes { 
   id: number;
   date: Date;
+  reason: string;
   status: 'pending' | 'confirmed' | 'cancelled';
   clientId?: number;
 
@@ -15,6 +16,7 @@ interface AppoinmentCreationAttributes extends Optional<AppointmentAttributes, '
 export class Appointment extends Model<AppointmentAttributes, AppoinmentCreationAttributes> implements AppointmentAttributes{
   public id!: number;
   public date!: Date;
+  public reason!: string;
   public status!: 'pending' | 'confirmed' | 'cancelled';
   public clientId?: number;
 
@@ -36,11 +38,15 @@ export function AppointmentFactory (sequelize: Sequelize): typeof Appointment {
       },
       date: {
         type: DataTypes.DATE,
+        allowNull: true
+      },
+      reason: {
+        type: DataTypes.STRING,
         allowNull: false
       },
       status: {
-        type: DataTypes.ENUM('pending', 'confirmed', 'cancelled'),
-        allowNull: false,
+        type: DataTypes.STRING,
+        allowNull: true,
         defaultValue: 'pending'
       },
       clientId: {
