@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getClients } from '../services/clientService';
+import './ScheduleAppointment.css';
 import api from '../services/api';
 
 interface AppointmentFormProps {
@@ -13,7 +14,7 @@ interface Client {
 }
 
 const AppointmentForm: React.FC<AppointmentFormProps> = ({ onSuccess, setSelectedDate, selectedDate }) => {
-  const [date, setDate] = useState('')
+  const [_date, setDate] = useState('')
   const [reason, setReason] = useState('')
   const [status, setStatus] = useState('')
   const [clientId, setClientId] = useState('')
@@ -41,6 +42,7 @@ const AppointmentForm: React.FC<AppointmentFormProps> = ({ onSuccess, setSelecte
     e.preventDefault();
 
     try {
+      console.log(status)
       const response = await api.post('/appointments', {
         date: selectedDate, 
         reason,
@@ -48,9 +50,9 @@ const AppointmentForm: React.FC<AppointmentFormProps> = ({ onSuccess, setSelecte
         clientId: Number(clientId),
       });
 
-      setSuccesMessage('Cita Creada Correctamente');
+      setSuccesMessage('Appointment Created Succesfully!');
       setErrorMessage('')
-      setSuccesMessage('Cita Creada Correctamente')
+      setSuccesMessage('Appointment Created Succesfully!')
       setDate('')
       setReason('')
       setStatus('')
@@ -58,16 +60,18 @@ const AppointmentForm: React.FC<AppointmentFormProps> = ({ onSuccess, setSelecte
 
       await onSuccess(selectedDate);
       console.log('Appointment Creado', response.data)
+      
     } catch (error) {
-      console.error(`Error al crear Appointment`, error)
-      setErrorMessage('Hubo un error al crear la cita')
+      console.error(`Error creating Appointment`, error)
+      setErrorMessage('Error creating Appointment')
       setSuccesMessage('')
     }
   }
   
   return(
-    <div>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className='schedule-container'>
+      <h2>{'Schedule a New Appointment'}</h2>
+      <form onSubmit={handleSubmit} className="schedule-form ">
         <label>
           Date:
           <input
@@ -79,12 +83,12 @@ const AppointmentForm: React.FC<AppointmentFormProps> = ({ onSuccess, setSelecte
           />
         </label>
 
-        <label>
+        <label htmlFor='reason'>
           Reason:
           <input type="text" name="reason" value={reason} onChange={(e) => setReason(e.target.value)} required />
         </label>
 
-        <label>
+        <label htmlFor='clientId'>
           Cliente:
           <select name="clientId" value={clientId} onChange={(e) => setClientId(e.target.value)} required>
             <option value="">Seleccione</option>
@@ -97,24 +101,27 @@ const AppointmentForm: React.FC<AppointmentFormProps> = ({ onSuccess, setSelecte
           </select>
         </label>
 
-        <label>
+        <label htmlFor='professionalId' >
           Status:
-          <select name="Status" value={status} onChange={(e) => setStatus(e.target.value)} >
+          <select name="Status" value={status} onChange={(e) => setStatus(e.target.value)} required>
             <option value=''>Seleccione</option>
             <option value='pending'>pending</option>
-            <option value='pending'>confirmed</option>
-            <option value='pending'>cancelled</option>
+            <option value='confirmed'>confirmed</option>
+            <option value='cancelled'>cancelled</option>
 
             
           </select>
         </label>
 
-        <button type='submit'>Save Appointment</button>
-          
+        <button type='submit'>Create Appointment</button>
+        <div style={{padding: '1rem'}}>
+          {succesMessage && <h3 style={{ color: 'green' }}>{succesMessage}</h3>}
+          {errorMessage && <h3 style = {{color: 'red'}}>{errorMessage}</h3>}      
+        </div>
         
       </form>
-      {succesMessage && <p style={{ color: 'green' }}>{succesMessage}</p>}
-      {errorMessage && <p style = {{color: 'red'}}>{errorMessage}</p>}    </div>
+
+    </div>
     )
 };
     

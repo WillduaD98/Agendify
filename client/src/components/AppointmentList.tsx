@@ -1,6 +1,7 @@
 import React from 'react';
 
 
+
 interface Appointment {
     id: number;
     date: string;
@@ -11,6 +12,11 @@ interface Appointment {
         phoneNumber: number
     }
 }
+interface AppointmentListProps {
+    appointments: Appointment[];
+}
+
+
 function formatDate(dateString: string) {
     const date = new Date(dateString);
     return new Intl.DateTimeFormat('es-MX', {
@@ -22,10 +28,10 @@ function formatDate(dateString: string) {
       hour12: true
     }).format(date);
   }
-  
-interface AppointmentListProps {
-    appointments: Appointment[];
-}
+
+
+
+
 
 const AppointmentList: React.FC<AppointmentListProps> = ({ appointments }) => {
     if (appointments.length === 0) {
