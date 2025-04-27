@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { Client, Appointment } from '../models/index.js';
 import { Op } from 'sequelize';
 import { AuthRequest } from '../utils/authMiddleware.js';
+// import { WhatsAppService } from '../services/whatsapp.service.js';
 
 // import { User } from '../models/user.model';
 
@@ -23,8 +24,17 @@ export const createAppointment = async (req: AuthRequest, res: Response) => {
       date, 
       clientId, 
       reason,
-      status: status || 'pending'
+      status: status
     });
+    if (status === 'confirmed') {
+      const phoneNumber = client?.phoneNumber;
+      if (phoneNumber) {
+        console.log(`📲 Enviando mensaje de confirmación a: ${phoneNumber}`);
+        // Aquí después conectarías con API real de WhatsApp
+        return Promise.resolve();
+      }
+    }
+
     return res.status(201).json(newAppointment);
   } catch (error) {
     console.error(`Error al crear la cita: `, error)
@@ -94,17 +104,22 @@ export const getAppointmentById = async (req: Request, res: Response) => {
 
 export const updateAppointment = async (req: Request, res: Response) => {
   const { id } = req.params
-  const {date, status} = req.body
+  const {date, status, reason} = req.body
   try {
     const appointment = await Appointment.findByPk(id);
     if (!appointment) {
-      return res.status(404).json({ message: 'Cita no encontrada' });
+      return res.status(404).json({ message: 'Appointment not found' });
     }
 
-    if (date) appointment.date = date
-    if (status) appointment.status = status;
+    appointment.date = date || appointment.date;
+    appointment.status = status || appointment.status
+    appointment.reason = reason || appointment.reason
     
     await appointment.save();
+
+
+
+
     return res.status(200).json(`Appointment updated ${appointment}`);
   } catch (error: any) {
     console.error('❌ Error al crear cliente:', error); 

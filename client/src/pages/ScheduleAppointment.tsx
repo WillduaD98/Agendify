@@ -1,6 +1,7 @@
 import _React, { useState, useEffect } from 'react';
 import AppointmentCard from '../components/AppointmentCard';
 import AppointmentList from '../components/AppointmentList';
+// import './ScheduleAppointment.css';
 import api from '../services/api';
 
 
@@ -33,7 +34,7 @@ const ViewCreateAppointments = () => {
     const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
     setSelectedDate(today); // esto dispara el useEffect de selectedDate
   }, []);
-  
+
   useEffect(() => {
     if (selectedDate) {
       fetchAppointments(selectedDate);
@@ -41,8 +42,8 @@ const ViewCreateAppointments = () => {
   }, [selectedDate]);
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-4">Schedule Appointments</h1>
+    <div style= {{ background: 'linear-gradient(to right, #e0f7fa, #ffffff)'}}>
+      <h1 className="text-2xl font-bold mb-4"></h1>
       <AppointmentCard
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}

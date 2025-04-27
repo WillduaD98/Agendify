@@ -22,6 +22,11 @@ const ViewCreateClient = () => {
 
 
 
-    return <ClientForm onSuccess={fetchClients} />
+    return (
+        <div>
+            <ClientForm onSuccess={fetchClients} />
+            <ClientList clients={clients}/>
+        </div>
+    )
 }
 export default ViewCreateClient

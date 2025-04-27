@@ -33,7 +33,7 @@ if (process.env.DATABASE_URL) {
     host: DB_HOST,
     dialect: 'postgres',
     logging: false,
-    port: 5432 //CAMBIAR PUERTO A 5432, EL 5433 ES PARA MI
+    port: 5433 //CAMBIAR PUERTO A 5432, EL 5433 ES PARA MI
   });
 }
 
