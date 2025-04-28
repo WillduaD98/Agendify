@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
-import { Client, Appointment } from '../models/index.js';
+import { Client, Appointment, User } from '../models/index.js';
 import { Op } from 'sequelize';
 import { AuthRequest } from '../utils/authMiddleware.js';
-// import { WhatsAppService } from '../services/whatsapp.service.js';
+import { WhatsAppService } from '../services/whatsapp.service.js';
 
 // import { User } from '../models/user.model';
 
@@ -11,9 +11,11 @@ import { AuthRequest } from '../utils/authMiddleware.js';
 
 //CREAT UN APPOINTMENT por POST
 export const createAppointment = async (req: AuthRequest, res: Response) => {
-  
+  const userId = req.userId
   try {
     const {date, clientId, status, reason} = req.body;
+    const user = await User.findByPk(userId)
+    const userName = user?.username
     // Checked if client exist:
     const client = await Client.findByPk(clientId);
     if (!client) {
@@ -28,9 +30,12 @@ export const createAppointment = async (req: AuthRequest, res: Response) => {
     });
     if (status === 'confirmed') {
       const phoneNumber = client?.phoneNumber;
-      if (phoneNumber) {
+      const clientName = client?.name;
+      const appointmentDate = date;
+      if (phoneNumber && clientName && appointmentDate) {
         console.log(`📲 Enviando mensaje de confirmación a: ${phoneNumber}`);
         // Aquí después conectarías con API real de WhatsApp
+        await WhatsAppService.sendConfirmationMessage(phoneNumber, clientName, appointmentDate, userName)
         return Promise.resolve();
       }
     }
