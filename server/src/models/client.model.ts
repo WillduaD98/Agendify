@@ -6,7 +6,7 @@ import { User } from './user.model.js'
 interface ClientAttributes {
     id: number;
     name: string;
-    phoneNumber: number;
+    phoneNumber: string;
     assignedUserId?: number;
 }
 
@@ -15,7 +15,7 @@ interface ClientCreationAttributes extends Optional<ClientAttributes, 'id'>{}
 export class Client extends Model<ClientAttributes, ClientCreationAttributes> implements ClientAttributes{
     public id!: number;
     public name!: string;
-    public phoneNumber!: number;
+    public phoneNumber!: string;
     public assignedUserId?: number;
 
     // associated User model
@@ -38,7 +38,7 @@ export function ClientFactory(sequelize: Sequelize): typeof Client {
                 allowNull: false
             },
             phoneNumber: {
-                type: DataTypes.BIGINT,
+                type: DataTypes.STRING,
                 allowNull: false
             },
             assignedUserId: {
