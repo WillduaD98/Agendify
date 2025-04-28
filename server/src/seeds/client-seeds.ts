@@ -2,10 +2,10 @@ import { Client } from '../models/client.model.js';
 
 export const seedClients = async () => {
   await Client.bulkCreate([
-    { name: 'Justin', phoneNumber: 5543267891, assignedUserId: 1 },
-    { name: 'Sergio', phoneNumber: 47743267893, assignedUserId: 1 },
-    { name: 'Andres', phoneNumber: 5843267892, assignedUserId: 1 },
-    { name: 'user2', phoneNumber: 5843267892, assignedUserId: 2 },
+    { name: 'Ervey Garcia', phoneNumber: '528128615166', assignedUserId: 1 },
+    { name: 'Gabriela', phoneNumber: '525543381002', assignedUserId: 1 },
+    { name: 'Michelle Guzmán', phoneNumber: '525633860889', assignedUserId: 1 },
+    { name: 'William Duarte', phoneNumber: '524777240326', assignedUserId: 1 },
 
   ], { individualHooks: true });
 };
