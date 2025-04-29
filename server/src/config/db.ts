@@ -6,18 +6,19 @@ dotenv.config();
 let sequelize: Sequelize;
 
 if (process.env.DATABASE_URL) {
+  sequelize = new Sequelize(process.env.DATABASE_URL)
   // 🌐 Configuración para producción (ej. Render)
-  sequelize = new Sequelize(process.env.DATABASE_URL, {
-    dialect: 'postgres',
-    protocol: 'postgres',
-    dialectOptions: {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false, // <- depende de tu proveedor
-      },
-    },
-    logging: false,
-  });
+  // sequelize = new Sequelize(process.env.DATABASE_URL, {
+  //   dialect: 'postgres',
+  //   protocol: 'postgres',
+  //   dialectOptions: {
+  //     ssl: {
+  //       require: true,
+  //       rejectUnauthorized: false, // <- depende de tu proveedor
+  //     },
+  //   },
+  //   logging: false,
+  // });
 } else {
   // 🖥️ Configuración local
   const DB_HOST = process.env.DB_HOST;
