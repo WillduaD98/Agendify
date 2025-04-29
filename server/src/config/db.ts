@@ -6,7 +6,9 @@ dotenv.config();
 let sequelize: Sequelize;
 
 if (process.env.DATABASE_URL) {
+  console.log(`CONECTING TO PRODUCTION DATABASE...`)
   sequelize = new Sequelize(process.env.DATABASE_URL)
+  console.log(`PRODUCTION DATABASE CONECTED!`)
   // 🌐 Configuración para producción (ej. Render)
   // sequelize = new Sequelize(process.env.DATABASE_URL, {
   //   dialect: 'postgres',
@@ -21,6 +23,7 @@ if (process.env.DATABASE_URL) {
   // });
 } else {
   // 🖥️ Configuración local
+  console.log('CONECTING TO DEV DATABASE...')
   const DB_HOST = process.env.DB_HOST;
   const DB_NAME = process.env.DB_NAME;
   const DB_USER = process.env.DB_USER;
@@ -36,6 +39,7 @@ if (process.env.DATABASE_URL) {
     logging: false,
     port: 5433 //CAMBIAR PUERTO A 5432, EL 5433 ES PARA MI
   });
+  console.log('CONECTED TO DEV DATABASE!')
 }
 
 export default sequelize;
