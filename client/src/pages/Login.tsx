@@ -51,7 +51,7 @@ const Login = () => {
         <div className="login-box">
           <div className="login-logo">
             <img src="/assets/logo.png" alt="Adendify Logo" />
-            <h1>Adendify</h1>
+            <h1>Agendify</h1>
           </div>
           <h2>LOGIN TO YOUR ACCOUNT</h2>
           <form className="login-form" onSubmit={handleSubmit}>
