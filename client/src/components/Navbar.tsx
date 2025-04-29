@@ -5,7 +5,7 @@ import './Navbar.css';
 import auth from '../services/auth';
 
 const Navbar: React.FC = () => {
-  const [loginCheck, setLoginCheck] = useState(false);
+  const [_loginCheck, setLoginCheck] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false); // Estado del menú hamburguesa
 
   const checkLogin = () => {
