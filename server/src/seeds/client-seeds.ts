@@ -1,4 +1,4 @@
-import { Client } from '../models/client.model.js';
+import { Client } from '../models/index.js';
 
 export const seedClients = async () => {
   await Client.bulkCreate([
