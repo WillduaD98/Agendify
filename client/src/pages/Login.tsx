@@ -35,21 +35,17 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-left">
-        <nav className="login-nav">
-          <span>Home</span>
-          <span>About Us</span>
-          <span>Help</span>
-        </nav>
         <div className="contact-info">
           <p>📞 <strong>+123-456-7890</strong></p>
-          <p>✉️ <strong>hello@reallygreatsite.com</strong></p>
-          <p>🌐 <strong>www.reallygreatsite.com</strong></p>
+          <p>✉️ <strong>hello@agendigy.com</strong></p>
+          <p>🌐 <strong>www.agendigy.com</strong></p>
           <p>🏠 <strong>123 Anywhere St., Any City</strong></p>
         </div>
       </div>
       <div className="login-right">
         <div className="login-box">
           <div className="login-logo">
+            <img src="logoadendify.jpg" alt="Agendify Logo" />
             <img src="/assets/logo.png" alt="Adendify Logo" />
             <h1>Agendify</h1>
           </div>
@@ -73,8 +69,6 @@ const Login = () => {
             {error && <p style={{ color: 'red' }}>{error}</p>}
 
             <div className="login-footer">
-              <p>Don't have an account? <a href="/register">Sign Up now</a></p>
-              <button type="submit">LOGIN</button>
             </div>
           </form>
         </div>
