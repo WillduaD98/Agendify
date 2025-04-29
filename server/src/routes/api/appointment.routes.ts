@@ -1,16 +1,16 @@
 import express from 'express';
 import {
   createAppointment,
-  getAppointments,
+  getAppointmentsByDateAndUser,
   getAppointmentById,
   updateAppointment,
   deleteAppointment
-} from '../../../controllers/appointment.controller';
+} from '../../controllers/appointment.controller.js';
 
 const router = express.Router();
 
 router.post('/', createAppointment);        // Crear cita
-router.get('/', getAppointments);           // Listar todas las citas
+router.get('/', getAppointmentsByDateAndUser);           // Listar todas las citas
 router.get('/:id', getAppointmentById);     // Obtener cita específica
 router.put('/:id', updateAppointment);      // Editar cita
 router.delete('/:id', deleteAppointment);   // Eliminar cita
