@@ -45,8 +45,8 @@ const Login = () => {
       <div className="login-right">
         <div className="login-box">
           <div className="login-logo">
-            <img src="logoadendify.jpg" alt="Agendify Logo" />
-            <img src="/assets/logo.png" alt="Adendify Logo" />
+            <img src="../../public/assets/logoagendify.png" alt="Agendify Logo" />
+  
             <h1>Agendify</h1>
           </div>
           <h2>LOGIN TO YOUR ACCOUNT</h2>
