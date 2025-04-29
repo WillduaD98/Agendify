@@ -21,7 +21,7 @@ app.use((req, _res, next) => {
 app.use(router);
 
 //Quitar el alter: true para producción
-sequelize.sync({force: true}).then(() => {
+sequelize.sync().then(() => {
   console.log('🟢 DB connected and models synced');
   app.listen(PORT, () => {
     console.log(`🚀 Server running on http://localhost:${PORT}`);
