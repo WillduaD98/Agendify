@@ -4,6 +4,14 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import path from 'path';
 import sequelize from './config/db.js';
+import { fileURLToPath } from 'url';
+
+// Setup __dirname equivalent for ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Move up one level to project root
+const rootPath = path.resolve(__dirname, '..');
 
 dotenv.config();
 
@@ -18,20 +26,18 @@ app.use((req, _res, next) => {
   next();
 });
 
-// Agrupar todas las rutas bajo /api
+// Agrupar rutas bajo /api
 app.use(router);
 
-// Solo si estás en producción, servir frontend estático
+// ✅ Serve frontend static files in production
 if (process.env.NODE_ENV === 'production') {
-  const __dirnamePath = path.resolve();
-  app.use(express.static(path.join(__dirnamePath, 'client', 'dist')));
+  app.use(express.static(path.join(rootPath, 'client', 'dist')));
 
   app.get('*', (_req, res) => {
-    res.sendFile(path.join(__dirnamePath, 'client', 'dist', 'index.html'));
+    res.sendFile(path.join(rootPath, 'client', 'dist', 'index.html'));
   });
 }
 
-// Conexión a DB y arranque
 sequelize.sync().then(() => {
   console.log('🟢 DB connected and models synced');
   app.listen(PORT, () => {
