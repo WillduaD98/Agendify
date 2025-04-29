@@ -69,6 +69,7 @@ const Login = () => {
             {error && <p style={{ color: 'red' }}>{error}</p>}
 
             <div className="login-footer">
+              <button type="submit">LOGIN</button>
             </div>
           </form>
         </div>
